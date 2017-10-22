@@ -31,9 +31,15 @@ class EmployeeResposity : IEmployee
         }
     }
 
-    public void Delete(int id)
+    public void Delete(int Id)
     {
-        throw new System.NotImplementedException();
+        using (IDbConnection dbConnection = Connection)
+        {
+            string sQuery = "DELETE from Employee where id=@id";
+            dbConnection.Open();
+            dbConnection.Execute(sQuery, new { id = @Id });
+
+        }
     }
 
     public IEnumerable<Employee> getAll()

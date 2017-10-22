@@ -15,7 +15,8 @@ public class ProductRepository
 
     public IDbConnection Connection
     {
-        get  {
+        get
+        {
             return new SqlConnection(connectionString);
         }
     }
@@ -24,8 +25,8 @@ public class ProductRepository
     {
         using (IDbConnection dbConnection = Connection)
         {
-            string sQuery = "INSERT INTO Products (Name, Quantity, Price, netPrice, expiryDate, code,  providerId )"
-                            + " VALUES(@Name, @Quantity, @Price, @netPrice, @expiryDate, @code, @providerId)";
+            string sQuery = "INSERT INTO Products (Name, Quantity, Price, netPrice, expiryDate, code,  providerId, categoryId )"
+                            + " VALUES(@Name, @Quantity, @Price, @netPrice, @expiryDate, @code, @providerId, @categoryId)";
             dbConnection.Open();
             dbConnection.Execute(sQuery, prod);
         }
@@ -44,7 +45,7 @@ public class ProductRepository
     {
         using (IDbConnection dbConnection = Connection)
         {
-            string sQuery = "SELECT * FROM Products" 
+            string sQuery = "SELECT * FROM Products"
                            + " WHERE ProductId = @Id";
             dbConnection.Open();
             return dbConnection.Query<Product>(sQuery, new { Id = id }).FirstOrDefault();
@@ -55,8 +56,8 @@ public class ProductRepository
     {
         using (IDbConnection dbConnection = Connection)
         {
-             string sQuery = "DELETE FROM Products" 
-                          + " WHERE ProductId = @Id";
+            string sQuery = "DELETE FROM Products"
+                         + " WHERE ProductId = @Id";
             dbConnection.Open();
             dbConnection.Execute(sQuery, new { Id = id });
         }
@@ -67,8 +68,8 @@ public class ProductRepository
         using (IDbConnection dbConnection = Connection)
         {
             string sQuery = "UPDATE Products SET Name = @Name,"
-                           + " Quantity = @Quantity, Price= @Price," 
-                           + " netPrice = @netPrice, expiryDate=@expiryDate, code= @code, providerId= @providerId "
+                           + " Quantity = @Quantity, Price= @Price,"
+                           + " netPrice = @netPrice, expiryDate=@expiryDate, code= @code, providerId= @providerId, categoryId =@categoryId "
                            + " WHERE ProductId = @ProductId";
             dbConnection.Open();
             dbConnection.Query(sQuery, prod);

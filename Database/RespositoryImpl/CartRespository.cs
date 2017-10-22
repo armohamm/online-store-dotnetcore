@@ -25,8 +25,8 @@ public class CartRespository : ICart
     {
         using (IDbConnection dbConnection = Connection)
         {
-            string sQuery = "INSERT INTO Cart (productId, productCode, price, netPrice, orderDate )"
-                            + " VALUES( @productId, @productCode, @price, @netPrice, @orderDate);"
+            string sQuery = "INSERT INTO Cart (customerName, customerPhone, customerAddress, customerEmail, Note, isPayment,delivery, orderDate  )"
+                            + " VALUES( @customerName, @customerPhone, @customerAddress, @customerEmail, @Note,@isPayment, @delivery, @orderDate);"
                             + " SELECT CAST(SCOPE_IDENTITY() AS INT) ";
             dbConnection.Open();
             return dbConnection.Query<int>(sQuery, cart).Single();
@@ -65,9 +65,11 @@ public class CartRespository : ICart
 
     public void Update(Cart cart)
     {
-        using(IDbConnection dbConnection = Connection){
-            string sQuery = "UPDATE Cart SET productId= @productId, productCode= @productCode, "+
-                            " price= @price, netPrice= @netPrice, orderDate= @orderDate "+
+        using (IDbConnection dbConnection = Connection)
+        {
+            string sQuery = "UPDATE Cart SET customerName= @customerName, customerPhone= @customerPhone, " +
+                            " customerAddress= @customerAddress, customerEmail= @customerEmail, orderDate= @orderDate " +
+                            "Note=@Note, isPayment=@isPayment, delivery=@delivery " +
                             " where orderCode = @orderCode;";
             dbConnection.Open();
             dbConnection.Execute(sQuery, cart);

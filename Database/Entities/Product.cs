@@ -13,4 +13,5 @@ public class Product
     public string expiryDate { get; set; }
     public string code { get; set; }
     public string providerId { get; set; }
+    public string categoryId {get;set;}
 }
