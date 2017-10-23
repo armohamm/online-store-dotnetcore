@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using Newtonsoft.Json;
 
 public class Cart
 {
@@ -19,13 +19,18 @@ public class Cart
     public IEnumerable<productInOrder> products { get; set; }
     // format yyyy-mm-dd
     public string orderDate { get; set; }
+    public IEnumerable<detailProductInOrder> listProducts {get;set;}
 }
 
 public class productInOrder{
     [Required]
     public int productId{set;get;}
     [Required]
-
-    [MaxLength(10)]
     public int number{set;get;}
+}
+
+public class detailProductInOrder: project.Entities.OrderProduct
+{
+    public string Name{get;set;}
+    public string  Quantity {get;set;}
 }

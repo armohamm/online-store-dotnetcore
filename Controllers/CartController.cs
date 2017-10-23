@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using project.Middleware;
+using project.Services;
 
 namespace project.Controllers
 {
@@ -11,47 +12,46 @@ namespace project.Controllers
 
     public class CartController : Controller
     {
-        private readonly CartRespository cartRespository;
+        private readonly CartServices cartServices;
         public CartController()
         {
-            cartRespository = new CartRespository();
+            cartServices = new CartServices();
         }
         // GET: Cart/get
         [HttpGet]
         public IEnumerable<Cart> Get()
         {
-            return cartRespository.getAll();
+            return cartServices.getAllOrder();
         }
 
         // GET Cart/values/5
         [HttpGet("{id}")]
         public Cart Get(int id)
         {
-            return cartRespository.GetByID(id);
+            return cartServices.getOrder(id);
         }
 
         // POST Cart/values
         [HttpPost]
-        public void Post([FromBody]Cart cart)
+        public int Post([FromBody]Cart cart)
         {
-            if (ModelState.IsValid)
-                cartRespository.Add(cart);
+                return cartServices.addOrder(cart);
         }
 
         // PUT Cart/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]Cart cart)
         {
-            cart.orderCode = id;
-            if (ModelState.IsValid)
-                cartRespository.Update(cart);
+            // cart.orderCode = id;
+            // if (ModelState.IsValid)
+            //     cartRespository.Update(cart);
         }
 
         // DELETE Cart/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            cartRespository.Delete(id);
+            cartServices.deleteOrder(id);
         }
     }
 }

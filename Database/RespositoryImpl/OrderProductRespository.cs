@@ -22,15 +22,13 @@ public class OrderProductRespository : IOrderProduct
         }
     }
 
-    public int Add(OrderProduct OrderProduct)
+    public void Add(OrderProduct OrderProduct)
     {
         using (IDbConnection dbConnection = Connection)
         {
             string sQuery = "INSERT into OrderProduct(orderCode,productId, productCode, netPrice, price, number) " +
-                            "values (@orderCode,@productId, @productCode, @netPrice, @price, @number); " +
-                            " SELECT CAST(SCOPE_IDENTITY() AS INT);";
-            dbConnection.Open();
-            return dbConnection.Query<int>(sQuery, OrderProduct).Single();
+                            "values (@orderCode,@productId, @productCode, @netPrice, @price, @number);";            dbConnection.Open();
+             dbConnection.Query<int>(sQuery, OrderProduct);
         }
     }
 
@@ -54,13 +52,13 @@ public class OrderProductRespository : IOrderProduct
         }
     }
 
-    public OrderProduct GetById(int Id)
+    public IEnumerable<detailProductInOrder> GetById(int Id)
     {
         using (IDbConnection dbConnection = Connection)
         {
-            string sQuery = "SELECT * FROM OrderProduct where orderCode =@id;";
+            string sQuery = "select o.*, p.Name, p.Quantity from OrderProduct as o inner join Products as p on o.productId = p.ProductID where o.orderCode = @id";
             dbConnection.Open();
-            return dbConnection.Query<OrderProduct>(sQuery, new { id = Id }).Single();
+            return dbConnection.Query<detailProductInOrder>(sQuery, new { id = Id });
         }
     }
 

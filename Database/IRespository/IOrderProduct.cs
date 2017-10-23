@@ -4,9 +4,9 @@ using project.Entities;
 public interface IOrderProduct
 {
 
-    int Add(OrderProduct prod);
+    void Add(OrderProduct prod);
     void Update(OrderProduct prod);
     void Delete(int id);
-    OrderProduct GetById(int id);
+    IEnumerable<detailProductInOrder> GetById(int id);
     IEnumerable<OrderProduct> GetAll();
 }

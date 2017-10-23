@@ -4,7 +4,6 @@ namespace project.Entities
 {
     public class Producer
     {
-        [JsonIgnore]
         public int id { set; get; }
         public string name { set; get; }
         public string address { set; get; }

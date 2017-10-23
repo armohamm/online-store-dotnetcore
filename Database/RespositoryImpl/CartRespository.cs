@@ -25,9 +25,9 @@ public class CartRespository : ICart
     {
         using (IDbConnection dbConnection = Connection)
         {
-            string sQuery = "INSERT INTO Cart (customerName, customerPhone, customerAddress, customerEmail, Note, isPayment,delivery, orderDate  )"
+            string sQuery = "INSERT INTO Cart (customerName, customerPhone, customerAddress, customerEmail, Note, isPayment,delivery, orderDate )"
                             + " VALUES( @customerName, @customerPhone, @customerAddress, @customerEmail, @Note,@isPayment, @delivery, @orderDate);"
-                            + " SELECT CAST(SCOPE_IDENTITY() AS INT) ";
+                            + " SELECT CAST(SCOPE_IDENTITY() AS INT); ";
             dbConnection.Open();
             return dbConnection.Query<int>(sQuery, cart).Single();
         }

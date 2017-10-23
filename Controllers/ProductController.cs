@@ -32,7 +32,6 @@ namespace project.Controllers
         [HttpPost]
         public void Post([FromBody]Product prod)
         {
-            if (ModelState.IsValid)
                 productRepository.Add(prod);
         }
 

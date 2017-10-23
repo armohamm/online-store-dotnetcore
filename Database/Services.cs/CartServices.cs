@@ -1,3 +1,6 @@
+
+using System.Collections.Generic;
+
 namespace project.Services
 {
     public class CartServices : ICartServices
@@ -37,17 +40,23 @@ namespace project.Services
 
         public void deleteOrder(int orderId)
         {
-            throw new System.NotImplementedException();
+            // delete from Cart table
+            cartRespository.Delete(orderId);
+            // delete from mapping table
+            orderProductRespository.Delete(orderId);
         }
 
-        public void getAllOrder()
+        public IEnumerable<Cart> getAllOrder()
         {
-            throw new System.NotImplementedException();
+            return cartRespository.getAll();
         }
 
-        public void getOrder()
+        public Cart getOrder(int orderId)
         {
-            throw new System.NotImplementedException();
+           // get order 
+           var order = cartRespository.GetByID(orderId);
+           order.listProducts = orderProductRespository.GetById(orderId);
+           return order;
         }
 
         public void updateOrder()
