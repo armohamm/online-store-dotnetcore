@@ -20,20 +20,21 @@ namespace project.Services
             var orderCode = cartRespository.Add(order);
             // insert to OrderProduct
             // get list product by ids
-           foreach(var product in order.products){
-               // get product information 
-               var p = productRepository.GetByID(product.productId);
-               // insert order
-               var newOrderProduct = new Entities.OrderProduct();
-               newOrderProduct.netPrice = p.netPrice * product.number;
-               newOrderProduct.price = p.Price *product.number;
-               newOrderProduct.number = product.number;
-               newOrderProduct.orderCode = orderCode;
-               newOrderProduct.productId = p.ProductId;
-               newOrderProduct.productCode = p.code;
-               // insert mapping
-               orderProductRespository.Add(newOrderProduct);
-           }
+            foreach (var product in order.products)
+            {
+                // get product information 
+                var p = productRepository.GetByID(product.productId);
+                // insert order
+                var newOrderProduct = new Entities.OrderProduct();
+                newOrderProduct.netPrice = p.netPrice * product.number;
+                newOrderProduct.price = p.Price * product.number;
+                newOrderProduct.number = product.number;
+                newOrderProduct.orderCode = orderCode;
+                newOrderProduct.productId = p.ProductId;
+                newOrderProduct.productCode = p.code;
+                // insert mapping
+                orderProductRespository.Add(newOrderProduct);
+            }
             return orderCode;
 
         }
@@ -53,15 +54,35 @@ namespace project.Services
 
         public Cart getOrder(int orderId)
         {
-           // get order 
-           var order = cartRespository.GetByID(orderId);
-           order.listProducts = orderProductRespository.GetById(orderId);
-           return order;
+            // get order 
+            var order = cartRespository.GetByID(orderId);
+            order.listProducts = orderProductRespository.GetById(orderId);
+            return order;
         }
 
-        public void updateOrder()
+        public void updateOrder(Cart order)
         {
-            throw new System.NotImplementedException();
+            // update Cart information
+            cartRespository.Update(order);
+            // delete mapping record
+            orderProductRespository.Delete(order.orderCode);
+            // Reinsert mapping
+            foreach (var product in order.products)
+            {
+                // get product information 
+                var p = productRepository.GetByID(product.productId);
+                // insert order
+                var newOrderProduct = new Entities.OrderProduct();
+                newOrderProduct.netPrice = p.netPrice * product.number;
+                newOrderProduct.price = p.Price * product.number;
+                newOrderProduct.number = product.number;
+                newOrderProduct.orderCode = order.orderCode;
+                newOrderProduct.productId = p.ProductId;
+                newOrderProduct.productCode = p.code;
+                // insert mapping
+                orderProductRespository.Add(newOrderProduct);
+            }
+
         }
     }
 }
