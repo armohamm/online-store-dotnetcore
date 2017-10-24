@@ -25,8 +25,8 @@ namespace project.Services
                var p = productRepository.GetByID(product.productId);
                // insert order
                var newOrderProduct = new Entities.OrderProduct();
-               newOrderProduct.netPrice = p.netPrice;
-               newOrderProduct.price = p.Price;
+               newOrderProduct.netPrice = p.netPrice * product.number;
+               newOrderProduct.price = p.Price *product.number;
                newOrderProduct.number = product.number;
                newOrderProduct.orderCode = orderCode;
                newOrderProduct.productId = p.ProductId;
