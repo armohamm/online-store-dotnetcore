@@ -40,11 +40,10 @@ namespace project.Controllers
 
         // PUT Cart/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Cart cart)
+        public void Put(int id, [FromBody]Cart order)
         {
-            // cart.orderCode = id;
-            // if (ModelState.IsValid)
-            //     cartRespository.Update(cart);
+            cart.orderCode = id;
+            cartServices.updateOrder(order);
         }
 
         // DELETE Cart/values/5
