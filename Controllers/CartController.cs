@@ -42,7 +42,7 @@ namespace project.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]Cart order)
         {
-            cart.orderCode = id;
+            order.orderCode = id;
             cartServices.updateOrder(order);
         }
 
